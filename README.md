@@ -1,2 +1,4 @@
-# TIL
-Today I Learned
+# Today I Learned
+> 오늘 공부한 내용 정리용 repo
+
+---------------------------------------
