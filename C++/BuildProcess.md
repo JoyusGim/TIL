@@ -2,9 +2,9 @@
 > C++ 소스코드가 excutable file 이 되기까지의 과정  
   
 ## 0. Build Process  
-  * [Pre Processor](##1.Pre_Process)  
-  * [Compiler](##2.Compiler)  
-  * [Linker](##3.Linker)  
+  * [Pre Processor](#1.Pre_Process)  
+  * [Compiler](#2.Compiler)  
+  * [Linker](#3.Linker)  
   
 ## 1.Pre Processor  
   * 소스코드를 컴파일러에게 보내기 전 거치는 단계.  
