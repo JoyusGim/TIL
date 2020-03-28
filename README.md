@@ -4,4 +4,4 @@
 ---------------------------------------
 
 ### Architecture
-* [Endiannes](https://github.com/JoyusGim/TIL/blob/master/Architecture/Endianness.md)
+* [Endianness](https://github.com/JoyusGim/TIL/blob/master/Architecture/Endianness.md)
