@@ -65,6 +65,7 @@
     의 형태로 사용한다.  
       
 ## 3.Linker  
-  * 필요한 ```.obj``` 파일을 모아서 ```machine code```, ```data``` 와 더불어 실행에 필요한 추가정보를  
-   포함한 하나의 ```excutable file``` 을 만든다.  
+  * 필요한 ```.obj``` 파일을 모아서 ```machine code```, ```data``` 와 더불어 실행에 필요한 추가정보를 포함한 하나의 ```excutable file``` 을 만든다.   
+
+  * 모든 ```.obj``` 파일이 하나의 실행파일로 들어가는 것이 아닌 ```.obj```파일의 **code**및 **data**파트의 **relocation**과 **selection**이 발생한다. 즉, 실제로 불려지는 **code**와 **data**파트만 Linker의 Optimization Rule에 따라서 하나의 **excutable file**을 만든다.
   
