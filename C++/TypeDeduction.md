@@ -119,4 +119,21 @@
 
     int mappedVals[arraySize(keyVals)];             // c-style array
     std::array<int, arraySize(keyVals)> mappedVals; // c++ style array
+    ````  
+* 인수가 함수인 경우  
+    배열처럼 함수타입도 함수 포인터로 붕괴(decay) 한다.
+    ````c++
+    void someFunc(int, double);
+
+    template <typename T>
+    void f1(T param);           // param은 값 전달
+
+    template <typename T>
+    void f2(T& param);          // param은 참조 전달
+
+    f1(someFunc);               // param은 함수 포인터로 추론
+                                // call f1<void (*)(int, double)>(void (*)(int, double))
+    f2(someFunc);               // param은 함수 참조로 추론
+                                // call f2<void (int, double)>(void (&)(int, double))
+
     ````
