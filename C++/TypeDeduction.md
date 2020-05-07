@@ -3,6 +3,7 @@
 
 ## 0.Type deductions
   * [Type deduction in template](##1.Type)
+  * [Type deduction in auto keyword](##2.Type)
 
 ## 1.Type deduction in template
 
@@ -45,7 +46,7 @@
     f(cx);                  // call void f<int>(const int&)
     f(rx);                  // call void f<int>(const int&)
     ````
-     
+    
 * 보편참조인 경우.  
     템플릿이 보편참조 매개변수를 받는 경우에는 매개변수의 선언은 ```r-value reference```의 형태 즉,```T&&```이지만, ```l-value```인수가 전달되면 ```r-value reference```와는 다른 방식으로 동작한다.  
 
@@ -136,4 +137,70 @@
     f2(someFunc);               // param은 함수 참조로 추론
                                 // call f2<void (int, double)>(void (&)(int, double))
 
-    ````
+    ````  
+<br />
+
+## 2.Type deduction in auto keyword
+> ```auto```타입 추론은 특수한 경우를 제외하곤```template```에서의 타입추론과 동일하다. 그렇기 때문에 ```template```에서와 마찬가지로 세 가지 경우로 나뉜다.
+* 형식 지정자가 포인터나 참조 형식이지만 보편참조는 아닌경우
+* 형식 지정자가 보편참조인 경우
+* 형식 지정자가 포인터도 아니고 참조도 아닌경우
+````c++
+auto x = 27;        // 세 번째 경우
+const auto cx = x;  // 세 번째 경우
+const auto& rx = x; // 첫 번째 경우
+
+// 두 번쨰 경우
+auto&& uref1 = x;   // x는 int type l-value 이므로, int&로 추론
+auto&& uref2 = cx;  // cx는 const int type l-value 이므로, int&로 추론
+auto&& uref3 = 27;  // 27은 int type r-value 임로, int&&로 추론
+
+// 배열의 경우
+const char name[] = "test"; // name은 const char[5]
+
+auto arr1 = name;           // arr1은 const char*
+auto& arr2 = name;          // arr2는 const char (&)[5]
+
+// 함수의 경우
+void someFunc(double, int);
+
+auto func1 = someFunc;      // func1은 void (*)(double, int)
+auto& func2 = someFunc;     // func2는 void (&)(double, int)
+````
+이처럼 대부분의 경우에 템플릿과 똑같은 타입 추론을 한다.  
+
+그러나 ```uniform initializeation```을 사용할 경우에는 서로 다르다.  
+이 경우```auto```는 ```std::initializer_list<T>```로 타입추론을 하지만, 템플릿의 경우 타입추론을 할 수 없다.
+````c++
+auto x1 = 27;       // x1은 int type 27
+auto x2(27);        // x2는 int type 27
+auto x3 = { 27 };   // x3는 std::initializer_list<int> type { 27 }
+auto x4{ 27 };      // x4는 int type 27 (since N3922)
+````
+````c++
+template <typename T>
+void f(T param);
+
+f({ 11, 23, 9 });       // 컴파일 에러. T에대한 타입추론 불가능
+````  
+하지만 ```param```의 타입이 ```std::initializer_list<T>```라면 타입추론이 가능하다.
+````c++
+template <typename T>
+void f(std::initializer_list<T> param);
+
+f({ 11, 23, 9 });       // call void f<int>(std::initializer_list<int>)
+````  
+* C++14부터는 함수의 반환타입과 ```lambda```의 매개변수에 ```auto```를 사용할 수 있다. 그러나 이러한 용법에는 ```auto```형식이 아니라 "템플릿에서의 타입추론"의 규칙이 사용된다. 따라서 함수에서 ```uniform initialization```을 이용한 값을 반환하거나 ```lambda```의 매개변수로 사용하면 컴파일이 실패한다.  
+````c++
+auto createInitList()
+{
+    return { 1, 2, 3 };     // 컴파일 실패
+}
+````
+````c++
+std::vector<int> v;
+...
+auto resetV = [&v](const auto& newValue) { v = newValue; };     // since C++14
+...
+resetV({ 1, 2, 3 });    // 컴파일 실패
+````
