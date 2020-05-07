@@ -2,7 +2,7 @@
 > C++의 타입 추론 규칙
 
 ## 0.Type deductions
-  * [Type deduction in template](## 1.Type deduction in template) 
+  * [Type deduction in template](##1.Type)
 
 ## 1.Type deduction in template
 
