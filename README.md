@@ -8,4 +8,4 @@
 
 ### C++
 * [Build Process](https://github.com/JoyusGim/TIL/blob/master/C++/BuildProcess.md)
-* [Type deduction](https://github.com/JoyusGim/TIL/blob/master/C++/TypeDeducion.md)
+* [Type deduction](https://github.com/JoyusGim/TIL/blob/master/C++/TypeDeduction.md)
